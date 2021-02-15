@@ -6,12 +6,15 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
+import org.apache.tomcat.util.buf.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MyEventListener extends ListenerAdapter {
 
@@ -59,8 +62,12 @@ public class MyEventListener extends ListenerAdapter {
                     new BufferedReader(fileReader);
 
             while((line = bufferedReader.readLine()) != null) {
-                if (word.length() > 2) {
-                    return line.contains(word);
+                String[] array = line.replaceAll(",", "").split(" ");
+                String patternString = "\\b(" + StringUtils.join(array) + ")\\b";
+                Pattern pattern = Pattern.compile(patternString);
+                Matcher matcher = pattern.matcher(word);
+                while (matcher.find()) {
+                    return matcher.find();
                 }
             }
 
