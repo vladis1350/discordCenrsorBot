@@ -46,6 +46,13 @@
             <artifactId>JDA</artifactId>
             <version>4.2.0_168</version>
         </dependency>
+		<dependency>
+			<groupId>club.minnced</groupId>
+			<artifactId>opus-java</artifactId>
+			<version>1.0.4</version>
+			<type>pom</type>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.jasypt/jasypt -->
 		<dependency>
 			<groupId>org.jasypt</groupId>

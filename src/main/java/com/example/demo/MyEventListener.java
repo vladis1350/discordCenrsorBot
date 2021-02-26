@@ -1,20 +1,17 @@
 package com.example.demo;
 
-import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageChannel;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.managers.AudioManager;
 import net.dv8tion.jda.api.requests.restaction.AuditableRestAction;
-import org.apache.tomcat.util.buf.StringUtils;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class MyEventListener extends ListenerAdapter {
 
@@ -23,32 +20,53 @@ public class MyEventListener extends ListenerAdapter {
         Message message = event.getMessage();
         String content = message.getContentRaw();
         MessageChannel channel = event.getChannel();
+
+//        VoiceHandler voiceHandler = new VoiceHandler();
+//        Member member = event.getMember();
+//        GuildVoiceState stage = member.getVoiceState();
+//        VoiceChannel channel1 = stage.getChannel();
+//        Guild guild = channel1.getGuild();
+//        AudioManager audioManager = guild.getAudioManager();
+
+
         if (event.getAuthor().isBot()) return;
 
-        String regex = "(?iu)\\b((у|[нз]а|(хитро|не)?вз?[ыьъ]|с[ьъ]|(и|ра)[зс]ъ?|(о[тб]|под)[ьъ]?|(.\\B)+?[оаеи])?-?([её]б(?!о[рй])|и[пб][ае][тц]).*?|(н[иеа]|[дп]о|ра[зс]|з?а|с(ме)?|о(т|дно)?|апч)?-?ху([яйиеёю]|ли(?!ган)).*?|(в[зы]|(три|два|четыре)жды|(н|сук)а)?-?бл(я(?!(х|ш[кн]|мб)[ауеыио]).*?|[еэ][дт]ь?)|(ра[сз]|[зн]а|[со]|вы?|п(р[ои]|од)|и[зс]ъ?|[ао]т)?п[иеё]зд.*?|(за)?п[ие]д[аое]?р((ас)?(и(ли)?[нщктл]ь?)?|(о(ч[еи])?)?к|юг)[ауеы]?|манд([ауеы]|ой|[ао]вошь?(е?к[ауе])?|юк(ов|[ауи])?)|муд([аио].*?|е?н([ьюия]|ей))|мля([тд]ь)?|лять|([нз]а|по)х|м[ао]л[ао]фь[яию])\\b";
-        int c = 0;
-        String[] list = content.split(" ");
-        StringBuilder newContent = new StringBuilder();
-        for (int i = 0; i < list.length; i++) {
-            if (list[i].matches(regex)) {
-                c++;
-                newContent.append(replaceAll(list[i]));
-                newContent.append(" ");
-            } else if (fileReader(list[i])) {
-                c++;
-                newContent.append(replaceAll(list[i]));
-                newContent.append(" ");
-            } else {
-                newContent.append(list[i]);
-                newContent.append(" ");
+//        if (content.contains("!join")) {
+//            audioManager.setSendingHandler(voiceHandler);
+//            audioManager.setReceivingHandler(voiceHandler);
+//            audioManager.openAudioConnection(channel1);
+//        } else if (content.contains("!leave")) {
+//            audioManager.setSendingHandler(voiceHandler);
+//            audioManager.setReceivingHandler(voiceHandler);
+//            audioManager.closeAudioConnection();
+//        } else
+//            if {
+            String regex = "(?iu)\\b((у|[нз]а|(хитро|не)?вз?[ыьъ]|с[ьъ]|(и|ра)[зс]ъ?|(о[тб]|под)[ьъ]?|(.\\B)+?[оаеи])?-?([её]б(?!о[рй])|и[пб][ае][тц]).*?|(н[иеа]|[дп]о|ра[зс]|з?а|с(ме)?|о(т|дно)?|апч)?-?ху([яйиеёю]|ли(?!ган)).*?|(в[зы]|(три|два|четыре)жды|(н|сук)а)?-?бл(я(?!(х|ш[кн]|мб)[ауеыио]).*?|[еэ][дт]ь?)|(ра[сз]|[зн]а|[со]|вы?|п(р[ои]|од)|и[зс]ъ?|[ао]т)?п[иеё]зд.*?|(за)?п[ие]д[аое]?р((ас)?(и(ли)?[нщктл]ь?)?|(о(ч[еи])?)?к|юг)[ауеы]?|манд([ауеы]|ой|[ао]вошь?(е?к[ауе])?|юк(ов|[ауи])?)|муд([аио].*?|е?н([ьюия]|ей))|мля([тд]ь)?|лять|([нз]а|по)х|м[ао]л[ао]фь[яию])\\b";
+            int c = 0;
+            String[] list = content.split(" ");
+            StringBuilder newContent = new StringBuilder();
+            for (int i = 0; i < list.length; i++) {
+                if (list[i].matches(regex)) {
+                    c++;
+                    newContent.append(replaceAll(list[i]));
+                    newContent.append(" ");
+                } else if (fileReader(list[i])) {
+                    c++;
+                    newContent.append(replaceAll(list[i]));
+                    newContent.append(" ");
+                } else {
+                    newContent.append(list[i]);
+                    newContent.append(" ");
+                }
             }
-        }
-        content = "**" + newContent + "**";
-        if (c != 0) {
-            AuditableRestAction<Void> auditableRestAction = message.delete();
-            auditableRestAction.queue();
-            channel.sendMessage(event.getAuthor().getName() + ": \n" + content).queue();
-        }
+            content = "**" + newContent + "**";
+            if (c != 0) {
+                AuditableRestAction<Void> auditableRestAction = message.delete();
+                auditableRestAction.queue();
+                channel.sendMessage(event.getAuthor().getName() + ": \n" + content).queue();
+            }
+//        }
+
     }
 
     private boolean fileReader(String word) {
@@ -61,22 +79,25 @@ public class MyEventListener extends ListenerAdapter {
             BufferedReader bufferedReader =
                     new BufferedReader(fileReader);
 
-            while((line = bufferedReader.readLine()) != null) {
-                String[] array = line.replaceAll(",", "").split(" ");
-                String patternString = "\\b(" + StringUtils.join(array) + ")\\b";
-                Pattern pattern = Pattern.compile(patternString);
-                Matcher matcher = pattern.matcher(word);
-                while (matcher.find()) {
-                    return matcher.find();
+            while ((line = bufferedReader.readLine()) != null) {
+                line = line.replaceAll("\\,", "");
+                String[] words = line.split(" ");
+                if (word.length() > 2) {
+                    for (int i = 0; i < words.length; i++) {
+                        if(words[i].equals(word)) {
+                            return true;
+                        }
+                    }
+//                    return line.matches("\\s" + line.contentEquals(word) + "\\s");
                 }
             }
 
             bufferedReader.close();
-        } catch(FileNotFoundException ex) {
+        } catch (FileNotFoundException ex) {
             System.out.println(
                     "Unable to open file '" +
                             fileName + "'");
-        } catch(IOException ex) {
+        } catch (IOException ex) {
             System.out.println(
                     "Error reading file '"
                             + fileName + "'");
@@ -107,22 +128,4 @@ public class MyEventListener extends ListenerAdapter {
         channel.sendMessage(content).queue();
     }
 
-//    @Override
-//    public void onMessageDelete(@NotNull MessageDeleteEvent event) {
-//        System.out.println("onMessageDelete");
-//        String message = event.getMessageId();
-//        MessageChannel channel = event.getChannel();
-//
-//        System.out.println(message);
-//        channel.sendMessage("ID -> " + message).queue();
-//    }
-
-//    @Override
-//    public void onGuildMessageReceived(@Nonnull GuildMessageReceivedEvent event) {
-//        System.out.println("onGuildMessageReceived");
-//        Message message = event.getMessage();
-//        String content = message.getContentRaw();
-//        MessageChannel channel = event.getChannel();
-//        channel.sendMessage(content).queue();
-//    }
 }
