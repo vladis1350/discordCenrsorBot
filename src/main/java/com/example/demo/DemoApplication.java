@@ -10,8 +10,6 @@ public class DemoApplication {
     public static void main(String[] args) {
         JDA api = null;
         EncryptService encryptService = new EncryptService();
-//        System.out.println("token: " + encryptService.getEncrypt("1621587343:AAGgSC5GAkk2DZs5p5VCUH4-tMaacYshy64"));
-//        System.out.println("userName: " + encryptService.getEncrypt("analyzerChannel_bot"));
         try {
             String token = "9K2LlBdRdilrRi+O53a2s9yIdcg47ZYlJC73+HJFP3z/k1GB8K1pyBt5gH63ot1Z6ReeDf0wX9adozatFQxi+ZlKDWp+HTts";
             token = encryptService.decryptPass(token);

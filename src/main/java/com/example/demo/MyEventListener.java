@@ -108,12 +108,14 @@ public class MyEventListener extends ListenerAdapter {
         Message message = event.getMessage();
         String content = message.getContentRaw();
         MessageChannel channel = event.getChannel();
-        channel.sendMessage(content).queue();
+        channel.sendMessage(content + " was updated!").queue();
     }
 
     @Override
     public void onMessageDelete(@Nonnull MessageDeleteEvent event) {
         System.out.println("Message was deleted");
+        MessageChannel channel = event.getChannel();
+        channel.sendMessage("message was deleted!").queue();
     }
 
 }
