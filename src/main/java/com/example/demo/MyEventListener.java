@@ -104,7 +104,6 @@ public class MyEventListener extends ListenerAdapter {
 
     @Override
     public void onMessageUpdate(@Nonnull MessageUpdateEvent event) {
-        System.out.println("onMessageUpdate");
         Message message = event.getMessage();
         String content = message.getContentRaw();
         MessageChannel channel = event.getChannel();
