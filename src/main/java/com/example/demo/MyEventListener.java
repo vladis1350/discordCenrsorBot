@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.guild.GuildJoinEvent;
+import net.dv8tion.jda.api.events.message.MessageDeleteEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -21,26 +23,7 @@ public class MyEventListener extends ListenerAdapter {
         String content = message.getContentRaw();
         MessageChannel channel = event.getChannel();
 
-//        VoiceHandler voiceHandler = new VoiceHandler();
-//        Member member = event.getMember();
-//        GuildVoiceState stage = member.getVoiceState();
-//        VoiceChannel channel1 = stage.getChannel();
-//        Guild guild = channel1.getGuild();
-//        AudioManager audioManager = guild.getAudioManager();
-
-
         if (event.getAuthor().isBot()) return;
-
-//        if (content.contains("!join")) {
-//            audioManager.setSendingHandler(voiceHandler);
-//            audioManager.setReceivingHandler(voiceHandler);
-//            audioManager.openAudioConnection(channel1);
-//        } else if (content.contains("!leave")) {
-//            audioManager.setSendingHandler(voiceHandler);
-//            audioManager.setReceivingHandler(voiceHandler);
-//            audioManager.closeAudioConnection();
-//        } else
-//            if {
             String regex = "(?iu)\\b((у|[нз]а|(хитро|не)?вз?[ыьъ]|с[ьъ]|(и|ра)[зс]ъ?|(о[тб]|под)[ьъ]?|(.\\B)+?[оаеи])?-?([её]б(?!о[рй])|и[пб][ае][тц]).*?|(н[иеа]|[дп]о|ра[зс]|з?а|с(ме)?|о(т|дно)?|апч)?-?ху([яйиеёю]|ли(?!ган)).*?|(в[зы]|(три|два|четыре)жды|(н|сук)а)?-?бл(я(?!(х|ш[кн]|мб)[ауеыио]).*?|[еэ][дт]ь?)|(ра[сз]|[зн]а|[со]|вы?|п(р[ои]|од)|и[зс]ъ?|[ао]т)?п[иеё]зд.*?|(за)?п[ие]д[аое]?р((ас)?(и(ли)?[нщктл]ь?)?|(о(ч[еи])?)?к|юг)[ауеы]?|манд([ауеы]|ой|[ао]вошь?(е?к[ауе])?|юк(ов|[ауи])?)|муд([аио].*?|е?н([ьюия]|ей))|мля([тд]ь)?|лять|([нз]а|по)х|м[ао]л[ао]фь[яию])\\b";
             int c = 0;
             String[] list = content.split(" ");
@@ -126,6 +109,11 @@ public class MyEventListener extends ListenerAdapter {
         String content = message.getContentRaw();
         MessageChannel channel = event.getChannel();
         channel.sendMessage(content).queue();
+    }
+
+    @Override
+    public void onMessageDelete(@Nonnull MessageDeleteEvent event) {
+        System.out.println("onMessageDelete");
     }
 
 }
