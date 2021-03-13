@@ -113,7 +113,7 @@ public class MyEventListener extends ListenerAdapter {
 
     @Override
     public void onMessageDelete(@Nonnull MessageDeleteEvent event) {
-        System.out.println("onMessageDelete111");
+        System.out.println("Message was deleted");
     }
 
 }
