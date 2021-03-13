@@ -111,11 +111,4 @@ public class MyEventListener extends ListenerAdapter {
         channel.sendMessage(content + " was updated!").queue();
     }
 
-    @Override
-    public void onMessageDelete(@Nonnull MessageDeleteEvent event) {
-        System.out.println("Message was deleted");
-        MessageChannel channel = event.getChannel();
-        channel.sendMessage("Message was deleted!").queue();
-    }
-
 }
