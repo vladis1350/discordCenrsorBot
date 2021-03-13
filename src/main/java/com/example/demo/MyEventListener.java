@@ -108,7 +108,7 @@ public class MyEventListener extends ListenerAdapter {
         Message message = event.getMessage();
         String content = message.getContentRaw();
         MessageChannel channel = event.getChannel();
-        channel.sendMessage(content + " was updated!").queue();
+        channel.sendMessage(event.getAuthor().getName() + " " + content + " was updated!").queue();
     }
 
 }
